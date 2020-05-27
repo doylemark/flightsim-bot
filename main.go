@@ -66,7 +66,7 @@ func messageCreate(session *discordgo.Session, message *discordgo.MessageCreate)
 			fmt.Println(err)
 			return
 		}
-
+	
 		session.ChannelMessageSend(message.ChannelID, fmt.Sprintf("🏓 Pong! response time was %s 😍", responseTime.String()))
 	}
 
@@ -91,6 +91,14 @@ func messageCreate(session *discordgo.Session, message *discordgo.MessageCreate)
 	}
 
 	if strings.HasPrefix(message.Content, "!tally") {
+		
+		hasPermissions, _ := memberHasPermission(session, GuildID, message.Author.ID, 8)
+
+		if !hasPermissions {
+			session.ChannelMessageSend(message.ChannelID, "You do not have the required permissions to perform this command")
+			return
+		}
+
 		session.ChannelMessageDelete(message.ChannelID, message.ID)
 		entries, _ := getEntries(session)
 		reactions, _ := getReactionCounts(session, entries)
@@ -105,6 +113,15 @@ func messageCreate(session *discordgo.Session, message *discordgo.MessageCreate)
 	}
 
 	if strings.HasPrefix(message.Content, "!start") {
+
+		hasPermissions, _ := memberHasPermission(session, GuildID, message.Author.ID, 8)
+
+		if !hasPermissions {
+			session.ChannelMessageSend(message.ChannelID, "You do not have the required permissions to perform this command")
+			return
+		}
+
+
 		session.ChannelMessageDelete(message.ChannelID, message.ID)
 		// removeCompetition()
 		prevWinners, _ := getPrevWinners(session)
