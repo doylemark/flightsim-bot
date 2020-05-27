@@ -47,13 +47,8 @@ func postWinners(winners []*reaction, session *discordgo.Session) {
 
 	for i := 0; i < 5; i++ {
 		// add roles to winners
-		if i == 0 {
-			firstPlaceRoleID := "550086049041350658"
-			session.GuildMemberRoleAdd(GuildID, winners[i].UID, firstPlaceRoleID)
-		} else {
-			winnersRoleID := "549990190794407937"
-			session.GuildMemberRoleAdd(GuildID, winners[i].UID, winnersRoleID)
-		}
+		winnersRoleID := "549990190794407937"
+		session.GuildMemberRoleAdd(GuildID, winners[i].UID, winnersRoleID)
 
 		embed := discordgo.MessageEmbedField{
 			Value: "<@" + winners[i].UID + "> with **" + strconv.Itoa(winners[i].Count) + "** votes ⭐️",
@@ -74,5 +69,11 @@ func postWinners(winners []*reaction, session *discordgo.Session) {
 
 	if err != nil {
 		fmt.Println(err)
+	}
+}
+
+func removeRoles(prevWinners []*reaction, session *discordgo.Session) {
+	for _, prevWinner := range prevWinners {
+		session.GuildMemberRoleRemove(GuildID, prevWinner.UID, "549990190794407937")
 	}
 }

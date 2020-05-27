@@ -71,6 +71,7 @@ func messageCreate(session *discordgo.Session, message *discordgo.MessageCreate)
 	}
 
 	if strings.HasPrefix(message.Content, "!submit") {
+		session.ChannelMessageDelete(message.ChannelID, message.ID)
 		if len(message.Attachments) > 0 {
 
 			sendSubmit(message.Attachments[0].URL, session, message)
@@ -90,9 +91,24 @@ func messageCreate(session *discordgo.Session, message *discordgo.MessageCreate)
 	}
 
 	if strings.HasPrefix(message.Content, "!tally") {
+		session.ChannelMessageDelete(message.ChannelID, message.ID)
 		entries, _ := getEntries(session)
 		reactions, _ := getReactionCounts(session, entries)
 		sorted := getWinners(reactions)
-		postWinners(sorted, session)
+		if len(sorted) > 0 {
+			postWinners(sorted, session)
+		} else {
+			session.ChannelMessageSend(ScreenshotChannelID, "Failed to compute competition results as no enteries could be located in the database")
+		}
+
+		storeWinners(sorted)
+	}
+
+	if strings.HasPrefix(message.Content, "!start") {
+		session.ChannelMessageDelete(message.ChannelID, message.ID)
+		// removeCompetition()
+		prevWinners, _ := getPrevWinners(session)
+		removeRoles(prevWinners, session)
+		startCompetitionMessage(session)
 	}
 }
