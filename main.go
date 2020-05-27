@@ -71,7 +71,6 @@ func messageCreate(session *discordgo.Session, message *discordgo.MessageCreate)
 	}
 
 	if strings.HasPrefix(message.Content, "!submit") {
-		session.ChannelMessageDelete(message.ChannelID, message.ID)
 		if len(message.Attachments) > 0 {
 
 			sendSubmit(message.Attachments[0].URL, session, message)

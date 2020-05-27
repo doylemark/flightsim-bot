@@ -22,6 +22,8 @@ func sendSubmit(url string, session *discordgo.Session, message *discordgo.Messa
 	}
 	sentMsg, err := session.ChannelMessageSendEmbed(ScreenshotChannelID, embed)
 
+	session.ChannelMessageSend(message.ChannelID, "Your submission has been recorded")
+
 	if err != nil {
 		fmt.Println(err)
 		return
