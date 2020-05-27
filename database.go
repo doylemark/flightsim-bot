@@ -98,8 +98,11 @@ func getEntries(session *discordgo.Session) ([]*post, error) {
 }
 
 func storeWinners(winners []*reaction) {
-
 	for i := 0; i < 5; i++ {
+		if i > len(winners) {
+			break
+		}
+
 		_, err := winnersCollection.InsertOne(context.TODO(), bson.D{
 			{Key: "uid", Value: winners[i].UID},
 		})
@@ -122,7 +125,6 @@ func getPrevWinners(session *discordgo.Session) ([]*reaction, error) {
 
 	var prevWinners []*reaction
 
-	// get all posts in database
 	for result.Next(context.TODO()) {
 		var winner reaction
 		err = result.Decode(&winner)

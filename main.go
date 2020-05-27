@@ -108,7 +108,9 @@ func messageCreate(session *discordgo.Session, message *discordgo.MessageCreate)
 		session.ChannelMessageDelete(message.ChannelID, message.ID)
 		// removeCompetition()
 		prevWinners, _ := getPrevWinners(session)
-		removeRoles(prevWinners, session)
+		if len(prevWinners) > 0 {
+			removeRoles(prevWinners, session)
+		}
 		startCompetitionMessage(session)
 	}
 }
