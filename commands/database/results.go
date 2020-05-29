@@ -51,11 +51,16 @@ type Reaction struct {
 
 // StoreWinners adds the top 5 winners to the database for future reference
 func StoreWinners(winners []*Reaction) {
-	for i := 0; i < 5; i++ {
-		if i > len(winners) {
-			break
-		}
 
+	var winnersCount int
+
+	if len(winners) > 5 {
+		winnersCount = 5
+	} else {
+		winnersCount = len(winners)
+	}
+
+	for i := 0; i < winnersCount; i++ {
 		_, err := WinnersCollection.InsertOne(context.TODO(), bson.D{
 			{Key: "uid", Value: winners[i].UID},
 		})

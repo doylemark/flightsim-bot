@@ -1,13 +1,13 @@
 package discord
 
 import (
-	"fmt"
 	"strings"
 
 	"github.com/bwmarrin/discordgo"
 	"github.com/doylemark/flightsim-bot/commands/botcommands/ping"
 	"github.com/doylemark/flightsim-bot/commands/botcommands/submit"
 	"github.com/doylemark/flightsim-bot/commands/botcommands/tally"
+	"github.com/doylemark/flightsim-bot/commands/botcommands/weather"
 	"github.com/doylemark/flightsim-bot/commands/database"
 )
 
@@ -44,6 +44,10 @@ func MessageCreate(Session *discordgo.Session, message *discordgo.MessageCreate)
 		database.RemoveCompetition()
 	}
 
+	if hasCmd(message.Content, "!metar") {
+		weather.HandleMetar(Session, message)
+	}
+
 }
 
 func hasCmd(message string, cmd string) bool {
@@ -57,7 +61,6 @@ func checkPerms(Session *discordgo.Session, message *discordgo.MessageCreate) bo
 	hasPerms, _ := MemberHasPermission(Session, message.Author.ID, 8)
 
 	if hasPerms {
-		fmt.Println("User has perms")
 		return true
 	}
 

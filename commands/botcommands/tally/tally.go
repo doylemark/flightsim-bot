@@ -60,7 +60,18 @@ func getWinners(reactions []*database.Reaction) []*database.Reaction {
 func notifyWinners(winners []*database.Reaction, session *discordgo.Session) {
 	var embedFields []*discordgo.MessageEmbedField
 
-	for i := 0; i < 5; i++ {
+	var winnersCount int
+
+	if len(winners) > 5 {
+		winnersCount = 5
+	} else {
+		winnersCount = len(winners)
+	}
+
+	for i := 0; i < winnersCount; i++ {
+		if i > len(winners)-1 {
+			break
+		}
 		// add roles to winners
 		winnersRoleID := "549990190794407937"
 		session.GuildMemberRoleAdd(env.GuildID, winners[i].UID, winnersRoleID)

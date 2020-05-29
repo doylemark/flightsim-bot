@@ -16,6 +16,8 @@ var GuildID string
 // DiscordToken is the Discord Bot Token used for authorizing API requests
 var DiscordToken string
 
+var WxToken string
+
 // LoadEnvVars loads env variables from .env and exposes them to other packages
 func LoadEnvVars() {
 	err := godotenv.Load()
@@ -28,4 +30,5 @@ func LoadEnvVars() {
 	ScreenshotChannelID = os.Getenv("SCREENSHOT_CHANNEL_ID")
 	GuildID = os.Getenv("GUILD_ID")
 	DiscordToken = os.Getenv("DISCORD_BOT_TOKEN")
+	WxToken = os.Getenv("WX_API_TOKEN")
 }
