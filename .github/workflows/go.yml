@@ -1,0 +1,54 @@
+name: Go
+
+on:
+  push:
+    branches: [ production ]
+
+jobs:
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: Set up Go 1.x
+      uses: actions/setup-go@v2
+      with:
+        go-version: ^1.13
+      id: go
+
+    - name: Check out code into the Go module directory
+      uses: actions/checkout@v2
+
+    - name: Get dependencies
+      run: |
+        go get -v -t -d ./...
+        if [ -f Gopkg.toml ]; then
+            curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
+            dep ensure
+        fi
+
+    - name: Build
+      run: go build -v .
+
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    steps:
+    - name: copy file via ssh password
+      uses: appleboy/scp-action@master
+      with:
+        host: ${{ secrets.DO_IP_ADDR }}
+        username: ${{ secrets.DO.USERNAME }}
+        password: ${{ secrets.DO_DROP_KEY }}
+        source: "./flightsim-bot"
+        target: "test"
+      
+        
+  run:
+    name: Run
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run scp'd file
+        run: |
+          ./flightsim-bot
