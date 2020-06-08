@@ -16,7 +16,11 @@ var GuildID string
 // DiscordToken is the Discord Bot Token used for authorizing API requests
 var DiscordToken string
 
+// WxToken is the token for the AVWX API, only required if !metar command will be used
 var WxToken string
+
+// WinnerRoleID is the ID of the Discord role that will be assigned to the winners of the screenshot competitions
+var WinnerRoleID string
 
 // LoadEnvVars loads env variables from .env and exposes them to other packages
 func LoadEnvVars() {
@@ -31,4 +35,5 @@ func LoadEnvVars() {
 	GuildID = os.Getenv("GUILD_ID")
 	DiscordToken = os.Getenv("DISCORD_BOT_TOKEN")
 	WxToken = os.Getenv("WX_API_TOKEN")
+	WinnerRoleID = os.Getenv("WINNER_ROLE_ID")
 }

@@ -73,8 +73,7 @@ func notifyWinners(winners []*database.Reaction, session *discordgo.Session) {
 			break
 		}
 		// add roles to winners
-		winnersRoleID := "549990190794407937"
-		session.GuildMemberRoleAdd(env.GuildID, winners[i].UID, winnersRoleID)
+		session.GuildMemberRoleAdd(env.GuildID, winners[i].UID, env.WinnerRoleID)
 
 		embed := discordgo.MessageEmbedField{
 			Value: "<@" + winners[i].UID + "> with **" + strconv.Itoa(winners[i].Count) + "** votes ⭐️",
@@ -100,6 +99,6 @@ func notifyWinners(winners []*database.Reaction, session *discordgo.Session) {
 
 func removeRoles(prevWinners []*database.Reaction, session *discordgo.Session) {
 	for _, prevWinner := range prevWinners {
-		session.GuildMemberRoleRemove(env.GuildID, prevWinner.UID, "549990190794407937")
+		session.GuildMemberRoleRemove(env.GuildID, prevWinner.UID, env.WinnerRoleID)
 	}
 }
