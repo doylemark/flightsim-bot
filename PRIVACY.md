@@ -1,4 +1,4 @@
-Discord is updating it's Developer TOS/Privacy Policy on August 15th (https://github.com/discord/discord-api-docs/pull/1780) Inline with this, I, (inanely) am required to provide a Privacy Policy for the @Flightsim Discord Server#2844 bot. 
+Discord is updating it's Developer TOS/Privacy Policy on August 15th (https://github.com/discord/discord-api-docs/pull/1780) Inline with this, I, am required to provide a Privacy Policy for the @Flightsim Discord Server#2844 bot. 
 
 The Privacy Policy is as follows
 
@@ -25,4 +25,4 @@ You have the right to request a copy of any of your personal information that th
 **3. Modifications** 
 While I have no intentions to do so, I may be required to update this policy from time to time.
 
-The most current version of this policy is available here: 
+The most current version of this policy is available here: https://github.com/doylemark/flightsim-bot/blob/master/PRIVACY.md
