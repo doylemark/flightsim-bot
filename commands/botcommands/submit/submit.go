@@ -6,27 +6,27 @@ import (
 	"time"
 
 	"github.com/bwmarrin/discordgo"
-	"github.com/doylemark/flightsim-bot/commands/database"
 	"github.com/doylemark/flightsim-bot/commands/env"
+	"github.com/doylemark/flightsim-bot/commands/store"
 )
 
 // Submit submits a screenshot to the competition
 func Submit(session *discordgo.Session, message *discordgo.MessageCreate) {
 	if len(message.Attachments) > 0 {
-		sendSubmit(message.Attachments[0].URL, session, message)
+		addSubmission(message.Attachments[0].URL, session, message)
 	} else if len(strings.Fields(message.Content)) > 1 {
 		if len(strings.Fields(message.Content)) > 2 {
 			session.ChannelMessageSend(message.ChannelID, "You may only attach one link!")
 			return
 		}
 
-		sendSubmit(strings.Fields(message.Content)[1], session, message)
+		addSubmission(strings.Fields(message.Content)[1], session, message)
 	} else {
 		session.ChannelMessageSend(message.ChannelID, "You must provide an image URL or attach an image to your submission")
 	}
 }
 
-func sendSubmit(url string, session *discordgo.Session, message *discordgo.MessageCreate) {
+func addSubmission(url string, session *discordgo.Session, message *discordgo.MessageCreate) {
 	embed := &discordgo.MessageEmbed{
 		Author: &discordgo.MessageEmbedAuthor{},
 		Title:  "Screenshot Competition Entry",
@@ -54,5 +54,5 @@ func sendSubmit(url string, session *discordgo.Session, message *discordgo.Messa
 		fmt.Println(err)
 	}
 
-	database.SaveSubmission(sentMsg.ID, url, message.Author.ID)
+	store.AddSubmission(&store.Submission{URL: url, ID: sentMsg.ID, UID: message.Author.ID})
 }

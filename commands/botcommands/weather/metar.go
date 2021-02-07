@@ -13,14 +13,14 @@ import (
 
 // HandleMetar parses a ICAO from message content and calls GetMetar
 func HandleMetar(session *discordgo.Session, message *discordgo.MessageCreate) {
-	stringArr := strings.Fields(message.Content)
+	splitMessage := strings.Fields(message.Content)
 
-	if len(stringArr) != 2 {
+	if len(splitMessage) != 2 {
 		session.ChannelMessageSend(message.ChannelID, "You must provide an icao code and nothing else, ex. `!metar EIDW`")
 		return
 	}
 
-	getMetar(stringArr[1], message.ChannelID, session)
+	getMetar(splitMessage[1], message.ChannelID, session)
 }
 
 // GetMetar fetches and returns a METAR object from avwx api

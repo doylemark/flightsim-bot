@@ -5,10 +5,11 @@ import (
 
 	"github.com/bwmarrin/discordgo"
 	"github.com/doylemark/flightsim-bot/commands/botcommands/ping"
+	"github.com/doylemark/flightsim-bot/commands/botcommands/start"
 	"github.com/doylemark/flightsim-bot/commands/botcommands/submit"
 	"github.com/doylemark/flightsim-bot/commands/botcommands/tally"
 	"github.com/doylemark/flightsim-bot/commands/botcommands/weather"
-	"github.com/doylemark/flightsim-bot/commands/database"
+	"github.com/doylemark/flightsim-bot/commands/store"
 )
 
 // MessageCreate Handles all incoming messages to the bot and routes them to commands
@@ -41,7 +42,8 @@ func MessageCreate(Session *discordgo.Session, message *discordgo.MessageCreate)
 		if !checkPerms(Session, message) {
 			return
 		}
-		database.RemoveCompetition()
+		start.Start(Session, message)
+		store.RemoveSubmissions()
 	}
 
 	if hasCmd(message.Content, "!metar") {
