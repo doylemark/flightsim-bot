@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flightsim-bot-deployment
+  labels:
+    app: discord
+spec: 
+  replicas: 1
+  selector:
+    matchLabels:
+      app: discord
+  template:
+    metadata:
+      labels:
+        app: discord
+    spec:
+      containers:
+      - name: flightsim-bot
+        image: <IMAGE>
+        env:
+        - name: DISCORD_BOT_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: flightsim-bot-secret
+              key: DISCORD_BOT_TOKEN
+        - name: SCREENSHOT_CHANNEL_ID
+          valueFrom:
+            secretKeyRef:
+              name: flightsim-bot-secret
+              key: SCREENSHOT_CHANNEL_ID           
+        - name: GUILD_ID
+          valueFrom:
+            secretKeyRef:
+              name: flightsim-bot-secret
+              key: GUILD_ID           
+        - name: WINNER_ROLE_ID
+          valueFrom:
+            secretKeyRef:
+              name: flightsim-bot-secret
+              key: WINNER_ROLE_ID
+        restartPolcy: Always 

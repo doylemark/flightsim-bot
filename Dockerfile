@@ -2,8 +2,6 @@ FROM golang:1.15-alpine as DEV
 
 WORKDIR /flightsim-bot
 
-# RUN GO111MODULE=on go get github.com/cortesi/modd/cmd/modd
-
 COPY go.mod .
 COPY go.sum .
 
