@@ -6,7 +6,7 @@ import (
 )
 
 // MemberHasPermission returns whether member has specified permission level
-func MemberHasPermission(s *discordgo.Session, userID string, permission int) (bool, error) {
+func MemberHasPermission(s *discordgo.Session, userID string, permission int64) (bool, error) {
 	member, err := s.State.Member(env.GuildID, userID)
 	if err != nil {
 		if member, err = s.GuildMember(env.GuildID, userID); err != nil {

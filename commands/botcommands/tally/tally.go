@@ -35,7 +35,7 @@ func getReactionCounts(session *discordgo.Session, posts []*store.Submission) ([
 	var reactions []*reaction
 
 	for _, post := range posts {
-		reactedUsers, err := session.MessageReactions(env.ScreenshotChannelID, post.ID, "✅", 100)
+		reactedUsers, err := session.MessageReactions(env.ScreenshotChannelID, post.ID, "✅", 100, "", "")
 
 		if err != nil {
 			fmt.Println("Submission appears to have been deleted:", err)
