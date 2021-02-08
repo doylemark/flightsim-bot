@@ -28,7 +28,6 @@ func LoadEnvVars() {
 
 	if err != nil {
 		fmt.Println(err)
-		os.Exit(1)
 	}
 
 	ScreenshotChannelID = os.Getenv("SCREENSHOT_CHANNEL_ID")
