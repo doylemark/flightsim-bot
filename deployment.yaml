@@ -38,4 +38,3 @@ spec:
             secretKeyRef:
               name: flightsim-bot-secret
               key: WINNER_ROLE_ID
-        restartPolcy: Always 
