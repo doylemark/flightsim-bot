@@ -36,7 +36,7 @@ jobs:
       run: doctl kubernetes cluster kubeconfig save --expiry-seconds 600 markdoyle-cluster
 
     - name: Deploy to DigitalOcean Kubernetes
-      run: kubectl apply -f $GITHUB_WORKSPACE/config/deployment.yaml
+      run: kubectl apply -f $GITHUB_WORKSPACE/deployment.yaml
 
     - name: Verify deployment
       run: kubectl rollout status deployment/flightsim-bot-deployment
