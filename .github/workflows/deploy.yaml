@@ -20,11 +20,8 @@ jobs:
       with:
         token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
     
-    - name: Log in to DigitalOcean Container Registry with short-lived credentials
-      run: doctl registry login --expiry-seconds 600
-
-    - name: Push image to DigitalOcean Container Registry
-      run: docker push
+    - name: Push image to DockerHub
+      run: docker push markdoyle/flightsim-bot:${GITHUB_SHA}
 
     - name: Update deployment file
       run: TAG=$(echo $GITHUB_SHA | head -c7) && sed -i 's|<IMAGE>|markdoyle/flightsim-bot:'${GITHUB_SHA}'|' $GITHUB_WORKSPACE/deployment.yaml
